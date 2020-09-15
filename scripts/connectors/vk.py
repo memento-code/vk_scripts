@@ -12,7 +12,7 @@ API_V = '5.103'
 class VkConnector:
 
     def __init__(self, owner_id, group_number):
-        config = json.loads(open('/home/ubuntu/vk_scripts/scripts/config.json', 'r').read())
+        config = json.loads(open('scripts/config.json', 'r').read())
         self.access_token = config['secrets']['api_vk_token']
         self.owner_id = owner_id,
         self.from_group = group_number

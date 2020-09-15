@@ -10,7 +10,7 @@ DOMAIN_URL = 'reddit.com'
 class RedditConnector:
 
     def __init__(self, client_id):
-        config = json.loads(open('/home/ubuntu/vk_scripts/scripts/config.json', 'r').read())
+        config = json.loads(open('scripts/config.json', 'r').read())
         self.reddit_secret = config['secrets']['reddit_secret']
         self.refresh_token = config['secrets']['reddit_refresh_token'],
         self.client_id = client_id,
