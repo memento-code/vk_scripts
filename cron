@@ -1,0 +1,1 @@
+30 */3 * * *    root python3 scripts/vk_group_content.py >> /data/scripts.log
