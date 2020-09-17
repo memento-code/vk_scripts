@@ -1,15 +1,16 @@
-import requests
 import json
-import random
 import time
+import random
+import requests
 from requests.adapters import HTTPAdapter
-from requests.packages.urllib3.util.retry import Retry
+from urllib3.util import Retry
 
 DOMAIN_URL = 'api.vk.com'
 API_V = '5.103'
 
 
 class VkConnector:
+    """Класс для подключения к API VK по owner_id. Токены для подключения лежат в config.json"""
 
     def __init__(self, owner_id, group_number):
         config = json.loads(open('scripts/config.json', 'r').read())
@@ -63,23 +64,23 @@ class VkConnector:
         :return: - ID изображений в альбоме группы
         """
         upload_data = self.request('POST', f'{self.domain_url}/method/photos.getWallUploadServer',
-                                        params={
-                                            'owner_id': self.owner_id,
-                                            'from_group': self.from_group,
-                                            'access_token': self.access_token,
-                                            'v': self.version_api
-                                        }).json()
+                                   params={
+                                       'owner_id': self.owner_id,
+                                       'from_group': self.from_group,
+                                       'access_token': self.access_token,
+                                       'v': self.version_api
+                                   }).json()
         upload_images = {'file' + str(index + 1): open(r'/home/ubuntu/vk_scripts/scripts/images/' + filename, 'rb')
                          for index, filename in enumerate(list_images) if index <= 5}
         upload_response = self.request('POST', upload_data['response']['upload_url'], files=upload_images).json()
 
         apply_upload = self.request('POST', f'{self.domain_url}/method/photos.save',
-                                         data={
-                                             'access_token': self.access_token,
-                                             'v': self.version_api,
-                                             'album_id': upload_data['response']['album_id'],
-                                             'server': upload_response['server'],
-                                             'hash': upload_response['hash'],
-                                             'photos_list': upload_response['photo']
-                                         }).json()
+                                    data={
+                                        'access_token': self.access_token,
+                                        'v': self.version_api,
+                                        'album_id': upload_data['response']['album_id'],
+                                        'server': upload_response['server'],
+                                        'hash': upload_response['hash'],
+                                        'photos_list': upload_response['photo']
+                                    }).json()
         return [f'photo{photo["owner_id"]}_{photo["id"]}' for photo in apply_upload['response']]

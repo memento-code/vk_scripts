@@ -1,11 +1,3 @@
-import requests
-import re
-import os
-import random
-import time
-import json
-from requests.adapters import HTTPAdapter
-from requests.packages.urllib3.util.retry import Retry
 from connectors.reddit import RedditConnector
 from connectors.vk import VkConnector
 

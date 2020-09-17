@@ -1,2 +1,4 @@
 images/
 *json
+.idea/
+venv/

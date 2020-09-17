@@ -1,13 +1,16 @@
-import requests
+import os
+import re
 import json
+import requests
 from requests.adapters import HTTPAdapter
-from requests.packages.urllib3.util.retry import Retry
+from urllib3.util import Retry
 
 API_V = 'v1'
 DOMAIN_URL = 'reddit.com'
 
 
 class RedditConnector:
+    """Класс для подключения к API Reddit по client_id. Токены для подключения лежат в config.json"""
 
     def __init__(self, client_id):
         config = json.loads(open('scripts/config.json', 'r').read())
