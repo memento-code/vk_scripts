@@ -16,7 +16,7 @@ def main():
 
     images = []
     for subreddit_id in SUBREDDIT_IDS:
-        images + reddit_connector.download_images_from_reddit(subreddit_id, 2)
+        images = images + reddit_connector.download_images_from_reddit(subreddit_id, 2)
 
     vk_config = config.get('vk')
     vk_connector = VkConnector(
