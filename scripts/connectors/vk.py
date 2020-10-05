@@ -1,6 +1,3 @@
-import json
-import time
-import random
 import requests
 from requests.adapters import HTTPAdapter
 from urllib3.util import Retry
@@ -35,7 +32,8 @@ class VkConnector:
         self.base_url = f'https://{DOMAIN_URL}/'
         self.version_api = API_V
 
-    def request(self, method, url, files=None, params=None, data=None):
+    @staticmethod
+    def request(method, url, files=None, params=None, data=None):
         session = requests.Session()
         retries = Retry(total=10,
                         backoff_factor=0.5,
