@@ -1,9 +1,16 @@
+import json
+import pytest
 from vk import VkConnector
 
 
 def test_connector_vk():
-    connector = VkConnector('-188359976', 1)
-    response = connector.request('GET', f'{connector.domain_url}/method/account.getProfileInfo', params={
+    config = json.loads(open('/home/ubuntu/vk_scripts/scripts/config.json', 'r').read()).get('vk')
+    connector = VkConnector(
+        owner_id=config.get('owner_id'),
+        from_group=True,
+        token=config.get('token')
+    )
+    response = connector.request('GET', f'{connector.base_url}/method/account.getProfileInfo', params={
                           'access_token': connector.access_token,
                           'v': connector.version_api})
     upload_image = connector.upload_images(['test.jpg'])
@@ -12,3 +19,6 @@ def test_connector_vk():
     assert response.json()['response']['last_name'] == 'Vivere'
     for image in upload_image:
         assert 'photo' in image
+
+    with pytest.raises(ValueError):
+        connector.create_post()
